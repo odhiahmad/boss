@@ -54,6 +54,13 @@ export const columnTable = (openModalView) => [
     dataIndex: "close_ticket_date",
     key: "close_ticket_date",
     width: 160,
+    render: (text, record) => (
+      <p>
+        {moment(record.close_ticket_date).format("lll") === "Invalid date"
+          ? ""
+          : moment(record.close_ticket_date).format("lll")}
+      </p>
+    ),
   },
   {
     title: "Category",
@@ -74,7 +81,7 @@ export const columnTable = (openModalView) => [
     width: 160,
     render: (text, record) => {
       const created_date_temp = moment(record.created_at)
-        .add(1, "days")
+        .add(20, "days")
         .format("lll");
 
       return <p>{created_date_temp}</p>;
@@ -85,12 +92,27 @@ export const columnTable = (openModalView) => [
     dataIndex: "sla_penyelesaian",
     key: "sla_penyelesaian",
     width: 160,
+    render: (text, record) => {
+      const created_date_temp = moment(record.close_ticket_date)
+        .add(20, "days")
+        .format("lll");
+
+      return (
+        <p>{created_date_temp === "Invalid date" ? "" : created_date_temp}</p>
+      );
+    },
   },
   {
     title: "Sisa SLA Penyelesaian",
     dataIndex: "sisa_sla_penyelesaian",
     key: "sisa_sla_penyelesaian",
     width: 190,
+    render: (text, record) => {
+      const a = moment(record.created_at).add(20, "days");
+      const b = moment(record.created_at);
+
+      return <p>{a.diff(b, "days")}</p>;
+    },
   },
   {
     title: "Perpanjangan",
@@ -123,55 +145,6 @@ export const columnTable = (openModalView) => [
         icon={<FolderOutlined />}
       >
         Edit Data
-      </Button>
-    ),
-  },
-];
-
-export const columnTableCart = (openModalView) => [
-  {
-    title: "User Id",
-    dataIndex: "userId",
-    key: "userId",
-    width: 60,
-  },
-  {
-    title: "Total Products",
-    dataIndex: "totalProducts",
-    key: "totalProducts",
-    width: 60,
-  },
-  {
-    title: "Total Quantity",
-    dataIndex: "totalQuantity",
-    key: "totalQuantity",
-    width: 60,
-  },
-  {
-    title: "Discount Total",
-    dataIndex: "discountedTotal",
-    key: "discountedTotal",
-    width: 60,
-  },
-  {
-    title: "Total",
-    dataIndex: "total",
-    key: "total",
-    width: 60,
-  },
-  {
-    title: "Action",
-    dataIndex: "action",
-    key: "action",
-    width: 160,
-    render: (text, record) => (
-      <Button
-        className="btn-primary"
-        type="primary"
-        onClick={() => openModalView(record)}
-        icon={<FolderOutlined />}
-      >
-        View
       </Button>
     ),
   },
