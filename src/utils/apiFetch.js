@@ -1,7 +1,8 @@
+import Swal from "sweetalert2";
+
 export async function filterFetch(url, options) {
   return await fetch(url, options)
     .then((respone) => {
-      console.log(respone);
       if (respone.status === 500) {
         throw new Error("Error Internal Server");
       }
@@ -11,10 +12,16 @@ export async function filterFetch(url, options) {
       throw new Error("Error Internal Server"); //kalo balikannya dari backend HTML
     })
     .then((json) => {
-      console.log(json.status);
       if (json.status === false) {
         throw new Error(json.message);
+      } else if (json.status === "Bad Request") {
+        Swal.fire({
+          text: json.message,
+          icon: "warning",
+          showCancelButton: false,
+          showConfirmButton: true,
+        });
       }
-      return json.data;
+      return json;
     });
 }
