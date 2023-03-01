@@ -3,8 +3,6 @@ import { FolderOutlined } from "@ant-design/icons";
 import moment from "moment";
 moment.locale("id");
 
-const dayjs = require("dayjs");
-
 export const columnTable = (openModalView) => [
   {
     title: "Ticket Number",
