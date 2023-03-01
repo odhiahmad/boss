@@ -9,7 +9,7 @@ export async function filterFetch(url, options) {
       return respone.json();
     })
     .catch((err) => {
-      throw new Error("Error Internal Server", err); //kalo balikannya dari backend HTML
+      throw new Error(`Error Internal Server ${err}`); //kalo balikannya dari backend HTML
     })
     .then((json) => {
       if (json.status === false) {
