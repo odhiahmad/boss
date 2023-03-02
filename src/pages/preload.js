@@ -17,13 +17,16 @@ function Preload() {
   const { appid, groupid, id } = router.query;
   const getTokenLoading = useSelector((state) => state.getToken.loading);
   useEffect(() => {
+    if (!id && !appid && !groupid) {
+      return;
+    }
     const bodyGetToken = {
       user_app_id: appid,
       user_group_id: groupid,
       user_id: id,
     };
     dispatch(getToken(bodyGetToken));
-  }, [getToken, dispatch, router]);
+  }, [getToken, dispatch, router, id, appid, groupid]);
 
   const routeToTicket = () => {
     router.push(`/ticket?appid=${appid}&groupid=${groupid}&id=${id}`);
