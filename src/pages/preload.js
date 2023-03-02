@@ -7,7 +7,12 @@ import { useRouter } from "next/router";
 
 function Preload() {
   const dispatch = useDispatch();
+  const { isReady } = useRouter();
   const router = useRouter();
+
+  if (!isReady) {
+    return <Spin />;
+  }
 
   const { appid, groupid, id } = router.query;
   const getTokenLoading = useSelector((state) => state.getToken.loading);
