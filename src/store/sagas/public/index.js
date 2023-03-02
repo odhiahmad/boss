@@ -17,20 +17,16 @@ function* getAccessUser(action) {
     type: GET_ACCESS_USER_PROCESS,
   });
   try {
-    const result = yield filterFetch(
-      API_URL + "public/baflite/get-access-user",
-      {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization:
-            "Bearer " + sessionStorage.getItem("userTokenBossLite"),
-        },
-        timeout: API_TIMEOUT,
-        body: JSON.stringify(action.data),
-      }
-    );
+    const result = yield filterFetch(API_URL + "baflite/access/user/get", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + sessionStorage.getItem("userTokenBossLite"),
+      },
+      timeout: API_TIMEOUT,
+      body: JSON.stringify(action.data),
+    });
     yield put({
       type: GET_ACCESS_USER_SUCCESS,
       result: result.data,
@@ -48,18 +44,15 @@ function* getToken(action) {
     type: GET_TOKEN_PROCESS,
   });
   try {
-    const result = yield filterFetch(
-      "https://apidemo.baf.id/baf/care/token/get",
-      {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        timeout: API_TIMEOUT,
-        body: JSON.stringify(action.data),
-      }
-    );
+    const result = yield filterFetch(API_URL + "token/get", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      timeout: API_TIMEOUT,
+      body: JSON.stringify(action.data),
+    });
     window.sessionStorage.setItem("userTokenBossLite", result.data);
     yield put({
       type: GET_TOKEN_SUCCESS,

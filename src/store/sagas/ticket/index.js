@@ -27,7 +27,7 @@ function* getTicket(action) {
   try {
     const result = yield filterFetch(
       API_URL +
-        `ticket/list?ticket_id=${action.data.ticket_id}&summary_case=${action.data.summary_case}&start_date=${action.data.start_date}&end_date=${action.data.end_date}&customer_name=${action.data.customer_name}&reporter_name=${action.data.reporter_name}&caller_number=${action.data.caller_number}&status=${action.data.status}&category=${action.data.category}&page=${action.data.page}`,
+        `ticket/list/get?ticket_id=${action.data.ticket_id}&summary_case=${action.data.summary_case}&start_date=${action.data.start_date}&end_date=${action.data.end_date}&customer_name=${action.data.customer_name}&reporter_name=${action.data.reporter_name}&caller_number=${action.data.caller_number}&status=${action.data.status}&category=${action.data.category}&page=${action.data.page}`,
       {
         method: "GET",
         headers: {
@@ -56,7 +56,7 @@ function* updateTicket(action) {
   });
   try {
     const result = yield filterFetch(
-      API_URL + `ticket/update?ticket_id=${action.data.id}`,
+      API_URL + `ticket/data/update?ticket_id=${action.data.id}`,
       {
         method: "POST",
         headers: {
@@ -92,7 +92,7 @@ function* createTicket(action) {
     type: CREATE_TICKET_PROCESS,
   });
   try {
-    const result = yield filterFetch(API_URL + "ticket", {
+    const result = yield filterFetch(API_URL + "ticket/data/create", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -126,7 +126,7 @@ function* getCustomer(action) {
   });
   try {
     const result = yield filterFetch(
-      API_URL + `confins/?agreement=${action.data.agreement}`,
+      API_URL + `user/data/byagrmnt/get?agreement=${action.data.agreement}`,
       {
         method: "GET",
         headers: {

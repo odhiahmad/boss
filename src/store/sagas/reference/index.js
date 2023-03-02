@@ -33,7 +33,7 @@ function* getCategory() {
     type: GET_CATEGORY_PROCESS,
   });
   try {
-    const result = yield filterFetch(API_URL + "reference/category", {
+    const result = yield filterFetch(API_URL + "reference/category/get", {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -67,7 +67,7 @@ function* getDepartment() {
     type: GET_DEPARTMENT_PROCESS,
   });
   try {
-    const result = yield filterFetch(API_URL + "reference/department", {
+    const result = yield filterFetch(API_URL + "reference/department/get", {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -105,7 +105,7 @@ function* getDepartmentEmail(action) {
   try {
     const result = yield filterFetch(
       API_URL +
-        `reference/department-email?department_code=${action.data.department}`,
+        `reference/dept/email/get?department_code=${action.data.department}`,
       {
         method: "GET",
         headers: {
@@ -144,7 +144,7 @@ function* getPriority() {
     type: GET_PRIORITY_PROCESS,
   });
   try {
-    const result = yield filterFetch(API_URL + "reference/priority", {
+    const result = yield filterFetch(API_URL + "reference/priority/get", {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -181,7 +181,7 @@ function* getSubCategory(action) {
   });
   try {
     const result = yield filterFetch(
-      API_URL + `reference/sub-category?category=${action.data.category}`,
+      API_URL + `reference/category/sub/get?category=${action.data.category}`,
       {
         method: "GET",
         headers: {
@@ -220,7 +220,7 @@ function* getSummaryCase() {
     type: GET_SUMMARY_CASE_PROCESS,
   });
   try {
-    const result = yield filterFetch(API_URL + "reference/summary-case", {
+    const result = yield filterFetch(API_URL + "reference/summary/case/get", {
       method: "GET",
       headers: {
         Accept: "application/json",
