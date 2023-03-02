@@ -1,5 +1,5 @@
-import Ticket from "./ticket";
+import Preload from "./preload";
 
 export default function index() {
-  return <Ticket />;
+  return <Preload />;
 }

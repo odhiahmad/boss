@@ -48,7 +48,6 @@ function* getToken(action) {
     type: GET_TOKEN_PROCESS,
   });
   try {
-    // window.sessionStorage.clear();
     const result = yield filterFetch(API_URL + "public/token", {
       method: "POST",
       headers: {
@@ -58,7 +57,6 @@ function* getToken(action) {
       timeout: API_TIMEOUT,
       body: JSON.stringify(action.data),
     });
-    console.log(result.data);
     window.sessionStorage.setItem("userTokenBossLite", result.data);
     yield put({
       type: GET_TOKEN_SUCCESS,

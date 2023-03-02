@@ -27,16 +27,16 @@ function LayoutBoss({ children, keys }) {
             height: "100%",
           }}
           items={itemsMenu}
-          // theme="dark"
+          theme="dark"
         ></Menu>
       </Sider>
       <Layout className="site-layout">
         <Content>
           <div
-            className="site-layout-background"
             style={{
               minHeight: 800,
               padding: "20px 20px",
+              backgroundColor: "white",
             }}
           >
             {children}
@@ -45,6 +45,7 @@ function LayoutBoss({ children, keys }) {
         <Footer
           style={{
             textAlign: "center",
+            backgroundColor: "white",
           }}
         >
           BOSS ©{year} BAF

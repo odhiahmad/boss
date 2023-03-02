@@ -11,7 +11,6 @@ import {
   Select,
   DatePicker,
   Layout,
-  Spin,
   Pagination,
   Modal,
 } from "antd";
@@ -21,7 +20,6 @@ import {
   getTicket,
   getCustomer,
   getAccessUser,
-  getToken,
   getCategory,
   getDepartment,
   getDepartmentEmail,
@@ -42,9 +40,8 @@ import { useRouter } from "next/router";
 const { Content } = Layout;
 export default function Ticket() {
   const router = useRouter();
-  const appId = router.query["appid"];
-  const groupId = router.query["groupid"];
-  const id = router.query["id"];
+  const { appid, id } = router.query;
+
   const dispatch = useDispatch();
   const [modalForm, setModalForm] = useState(false);
   const [modalView, setModalView] = useState(false);
@@ -70,7 +67,6 @@ export default function Ticket() {
 
   const getTicketResult = useSelector((state) => state.getTicket.result);
   const getTicketLoading = useSelector((state) => state.getTicket.loading);
-  const getTokenLoading = useSelector((state) => state.getToken.loading);
   const updateTicketLoading = useSelector(
     (state) => state.updateTicket.loading
   );
@@ -98,31 +94,42 @@ export default function Ticket() {
   );
 
   useEffect(() => {
-    // window.sessionStorage.clear();
-    if (window) {
-      const bodyGetToken = {
-        user_app_id: appId,
-        user_group_id: groupId,
+    const body = {
+      ticket_id: "",
+      summary_case: "",
+      start_date: "",
+      end_date: "",
+      customer_name: "",
+      reporter_name: "",
+      caller_number: "",
+      status: "",
+      category: "",
+      page: "1",
+    };
+    const token = sessionStorage.getItem("userTokenBossLite");
+
+    if (token) {
+      const bodyAccessUser = {
+        user_app_id: appid,
         user_id: id,
       };
-
-      dispatch(getToken(bodyGetToken));
-      const token = sessionStorage.getItem("userTokenBossLite");
-
-      if (token) {
-        const bodyAccessUser = {
-          user_app_id: appId,
-          user_id: id,
-        };
-        dispatch(getAccessUser(bodyAccessUser));
-        getTicketData();
-        dispatch(getCategory());
-        dispatch(getDepartment());
-        dispatch(getPriority());
-        dispatch(getSummaryCase());
-      }
+      dispatch(getAccessUser(bodyAccessUser));
+      dispatch(getTicket(body));
+      dispatch(getCategory());
+      dispatch(getDepartment());
+      dispatch(getPriority());
+      dispatch(getSummaryCase());
     }
-  }, []);
+  }, [
+    router,
+    dispatch,
+    getAccessUser,
+    getCategory,
+    getDepartment,
+    getPriority,
+    getSummaryCase,
+    getTicket,
+  ]);
 
   const getTicketData = () => {
     const body = {
@@ -338,176 +345,170 @@ export default function Ticket() {
   };
   return (
     <LayoutBoss className="layout-page" keys={"ticket"}>
-      <Spin spinning={getTokenLoading}>
-        <Content>
-          <Divider orientation="left">Ticket</Divider>
-          <Space direction="vertical" size="middle" style={{ display: "flex" }}>
-            <Row gutter={[8, 16]}>
+      <Content>
+        <Divider orientation="left">Ticket</Divider>
+        <Space direction="vertical" size="middle" style={{ display: "flex" }}>
+          <Row gutter={[8, 16]}>
+            <Col flex={1}>
+              <Input
+                style={{ width: "100%" }}
+                onChange={onChangeTicket}
+                placeholder="Ticket No"
+              />
+            </Col>
+            <Col flex={1}>
+              <Input
+                style={{ width: "100%" }}
+                onChange={onChangeCustomerName}
+                placeholder="Customer Name"
+              />
+            </Col>
+          </Row>
+          <Row gutter={[8, 16]}>
+            <Col flex={1}>
+              <Input
+                style={{ width: "100%" }}
+                onChange={onChangeCallerNo}
+                placeholder="Caller No"
+              />
+            </Col>
+            <Col flex={1}>
+              <Input
+                style={{ width: "100%" }}
+                onChange={onChangeReporterName}
+                placeholder="Reporter Name"
+              />
+            </Col>
+          </Row>
+          <Row gutter={[8, 16]}>
+            <Col flex={1}>
+              <Select
+                placeholder="Category"
+                style={{ width: "100%" }}
+                allowClear
+                options={[
+                  {
+                    value: "201",
+                    label: "201 - Request (Permintaan)",
+                  },
+                  {
+                    value: "203",
+                    label: "203 - Information",
+                  },
+                  {
+                    value: "204",
+                    label: "204 - Complaint/Critics",
+                  },
+                ]}
+                onChange={onChangeCategory}
+              />
+            </Col>
+            <Col flex={1}>
+              <Select
+                placeholder="Status"
+                style={{ width: "100%" }}
+                allowClear
+                options={[
+                  {
+                    value: "NEW",
+                    label: "New",
+                  },
+                  {
+                    value: "CLOSED",
+                    label: "Closed",
+                  },
+                ]}
+                onChange={onChangeStatus}
+              />
+            </Col>
+          </Row>
+          <Row gutter={[16, 16]}>
+            <Space>
               <Col flex={1}>
-                <Input
-                  style={{ width: "100%" }}
-                  onChange={onChangeTicket}
-                  placeholder="Ticket No"
-                />
+                <RangePicker onChange={onChangeDate} />
               </Col>
-              <Col flex={1}>
-                <Input
-                  style={{ width: "100%" }}
-                  onChange={onChangeCustomerName}
-                  placeholder="Customer Name"
-                />
-              </Col>
-            </Row>
-            <Row gutter={[8, 16]}>
-              <Col flex={1}>
-                <Input
-                  style={{ width: "100%" }}
-                  onChange={onChangeCallerNo}
-                  placeholder="Caller No"
-                />
-              </Col>
-              <Col flex={1}>
-                <Input
-                  style={{ width: "100%" }}
-                  onChange={onChangeReporterName}
-                  placeholder="Reporter Name"
-                />
-              </Col>
-            </Row>
-            <Row gutter={[8, 16]}>
-              <Col flex={1}>
-                <Select
-                  placeholder="Category"
-                  style={{ width: "100%" }}
-                  allowClear
-                  options={[
-                    {
-                      value: "201",
-                      label: "201 - Request (Permintaan)",
-                    },
-                    {
-                      value: "203",
-                      label: "203 - Information",
-                    },
-                    {
-                      value: "204",
-                      label: "204 - Complaint/Critics",
-                    },
-                  ]}
-                  onChange={onChangeCategory}
-                />
-              </Col>
-              <Col flex={1}>
-                <Select
-                  placeholder="Status"
-                  style={{ width: "100%" }}
-                  allowClear
-                  options={[
-                    {
-                      value: "NEW",
-                      label: "New",
-                    },
-                    {
-                      value: "CLOSED",
-                      label: "Closed",
-                    },
-                  ]}
-                  onChange={onChangeStatus}
-                />
-              </Col>
-            </Row>
-            <Row gutter={[16, 16]}>
-              <Space>
-                <Col flex={1}>
-                  <RangePicker onChange={onChangeDate} />
-                </Col>
-              </Space>
-            </Row>
-          </Space>
-        </Content>
-        <Divider orientation="right">
-          <Button
-            type="primary"
-            className="btn-primary"
-            icon={<PlusCircleOutlined />}
-            size={"medium"}
-            onClick={() => openModalForm("add")}
-          >
-            Buat Ticket Baru
-          </Button>
-        </Divider>
+            </Space>
+          </Row>
+        </Space>
+      </Content>
+      <Divider orientation="right">
+        <Button
+          type="primary"
+          className="btn-primary"
+          icon={<PlusCircleOutlined />}
+          size={"medium"}
+          onClick={() => openModalForm("add")}
+        >
+          Buat Ticket Baru
+        </Button>
+      </Divider>
 
-        <Table
-          loading={getTicketLoading}
-          rowKey={(record) => record.id}
-          dataSource={getTicketResult ? getTicketResult.items : null}
-          columns={columnTable(openModalView, getSummaryCaseResult)}
-          pagination={false}
-          scroll={{
-            x: 1000,
-            y: 300,
-          }}
-        />
-        <Divider />
-        <Pagination
-          defaultCurrent={
-            getTicketResult ? getTicketResult.pagination.current_page : null
-          }
-          total={
-            getTicketResult ? getTicketResult.pagination.total_items : null
-          }
-          onChange={onChangePage}
-        />
+      <Table
+        loading={getTicketLoading}
+        rowKey={(record) => record.id}
+        dataSource={getTicketResult ? getTicketResult.items : null}
+        columns={columnTable(openModalView, getSummaryCaseResult)}
+        pagination={false}
+        scroll={{
+          x: 1000,
+          y: 300,
+        }}
+      />
+      <Divider />
+      <Pagination
+        defaultCurrent={
+          getTicketResult ? getTicketResult.pagination.current_page : null
+        }
+        total={getTicketResult ? getTicketResult.pagination.total_items : null}
+        onChange={onChangePage}
+      />
 
-        <ModalForm
-          centered
-          title={
-            formTypeTicket === "create" ? "Create Ticket" : "Update Ticket"
-          }
-          visible={modalForm}
-          onCancel={() => setModalForm(false)}
-          okButtonProps={{
-            form: "formPengiriman",
-            key: "submit",
-            htmlType: "submit",
-          }}
-          formType={formTypeTicket}
-          onFinish={(values) => confirmSimpan(values)}
-          loading={createTicketLoading}
-          getCustomerData={(values) => getCustomerData(values)}
-          getSubCategoryData={(values) => getSubCategoryData(values)}
-          getDepartmentEmailData={(values) => getDepartmentEmailData(values)}
-          dataCategory={getCategoryResult}
-          dataDepartment={getDepartmentResult}
-          dataPriority={getPriorityResult}
-          dataSummaryCase={getSummaryCaseResult}
-          dataSubCategory={getSubCategoryResult}
-          dataDepartmentEmail={getDepartmentEmailResult}
-          dataCustomer={getCustomerResult}
-        />
-        <ModalView
-          okButtonProps={{
-            form: "formEdit",
-            key: "submit",
-            htmlType: "submit",
-          }}
-          centered
-          visible={modalView}
-          onCancel={() => closeModalView()}
-          data={dataView}
-          loading={updateTicketLoading}
-          onFinish={(values) => confirmUpdate(values)}
-          dataCategory={getCategoryResult}
-          dataDepartment={getDepartmentResult}
-          dataPriority={getPriorityResult}
-          dataSummaryCase={getSummaryCaseResult}
-          dataSubCategory={getSubCategoryResult}
-          dataDepartmentEmail={getDepartmentEmailResult}
-          dataCustomer={getCustomerResult}
-          getDepartmentEmailData={(values) => getDepartmentEmailData(values)}
-        />
-        {contextHolder}
-      </Spin>
+      <ModalForm
+        centered
+        title={formTypeTicket === "create" ? "Create Ticket" : "Update Ticket"}
+        visible={modalForm}
+        onCancel={() => setModalForm(false)}
+        okButtonProps={{
+          form: "formPengiriman",
+          key: "submit",
+          htmlType: "submit",
+        }}
+        formType={formTypeTicket}
+        onFinish={(values) => confirmSimpan(values)}
+        loading={createTicketLoading}
+        getCustomerData={(values) => getCustomerData(values)}
+        getSubCategoryData={(values) => getSubCategoryData(values)}
+        getDepartmentEmailData={(values) => getDepartmentEmailData(values)}
+        dataCategory={getCategoryResult}
+        dataDepartment={getDepartmentResult}
+        dataPriority={getPriorityResult}
+        dataSummaryCase={getSummaryCaseResult}
+        dataSubCategory={getSubCategoryResult}
+        dataDepartmentEmail={getDepartmentEmailResult}
+        dataCustomer={getCustomerResult}
+      />
+      <ModalView
+        okButtonProps={{
+          form: "formEdit",
+          key: "submit",
+          htmlType: "submit",
+        }}
+        centered
+        visible={modalView}
+        onCancel={() => closeModalView()}
+        data={dataView}
+        loading={updateTicketLoading}
+        onFinish={(values) => confirmUpdate(values)}
+        dataCategory={getCategoryResult}
+        dataDepartment={getDepartmentResult}
+        dataPriority={getPriorityResult}
+        dataSummaryCase={getSummaryCaseResult}
+        dataSubCategory={getSubCategoryResult}
+        dataDepartmentEmail={getDepartmentEmailResult}
+        dataCustomer={getCustomerResult}
+        getDepartmentEmailData={(values) => getDepartmentEmailData(values)}
+      />
+      {contextHolder}
     </LayoutBoss>
   );
 }
