@@ -48,15 +48,18 @@ function* getToken(action) {
     type: GET_TOKEN_PROCESS,
   });
   try {
-    const result = yield filterFetch(API_URL + "public/token", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      timeout: API_TIMEOUT,
-      body: JSON.stringify(action.data),
-    });
+    const result = yield filterFetch(
+      "https://apidemo.baf.id/baf/care/token/get",
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        timeout: API_TIMEOUT,
+        body: JSON.stringify(action.data),
+      }
+    );
     window.sessionStorage.setItem("userTokenBossLite", result.data);
     yield put({
       type: GET_TOKEN_SUCCESS,
