@@ -1,35 +1,42 @@
-# Node.js
-# Build a general Node.js project with npm.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+# Docker
+# Build a Docker image
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 trigger:
-- main
+- development
 
-pool:
-  vmImage: ubuntu-latest
+resources:
+- repo: self
 
-steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '16.x'
-  displayName: 'Install Node.js'
+variables:
+  tag: '$(Build.BuildId)'
 
-- script: |
-    npm install
-    npm run build
-  displayName: 'npm install and build'
+stages:
+- stage: Build
+  displayName: Build image
+  jobs:
+  - job: Build
+    displayName: Build
+    pool: 'BAF Pipelines Development'
+    steps:
+    - task: Bash@3
+      inputs:
+        targetType: 'inline'
+        script: |
+          docker build . -t escalation-bafcare-fe:$(tag)
+          docker container stop escalation-bafcare-fe
+          docker container rm escalation-bafcare-fe
 
-- task: ArchiveFiles@2
- inputs:
-   rootFolderOrFile: '.'
-   includeRootFolder: false
-   archiveType: 'zip'
-   archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-   replaceExistingArchive: true
-
-- task: PublishBuildArtifacts@1
- inputs:
-   PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-   ArtifactName: 'drop'
-   publishLocation: 'Container'
+- stage: Push
+  displayName: Push image
+  jobs:
+  - job: Push
+    displayName: Push
+    pool: 'BAF Pipelines Development'
+    steps:
+    - task: Bash@3
+      inputs:
+        targetType: 'inline'
+        script: |
+          docker run --name escalation-bafcare-fe -p 3121:3121 -d escalation-bafcare-fe:$(tag)
+          docker image rm -f escalation-bafcare-fe:$(tag)
