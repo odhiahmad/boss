@@ -38,5 +38,5 @@ stages:
       inputs:
         targetType: 'inline'
         script: |
-          docker run --name escalation-bafcare-fe -p 3121:3121 -d escalation-bafcare-fe:$(tag)
+          docker run --name escalation-bafcare-fe -p 3221:3221 -d escalation-bafcare-fe:$(tag)
           docker image rm -f escalation-bafcare-fe:$(tag)
