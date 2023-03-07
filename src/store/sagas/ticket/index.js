@@ -27,7 +27,7 @@ function* getTicket(action) {
   try {
     const result = yield filterFetch(
       API_URL +
-        `ticket/list/get?ticket_id=${action.data.ticket_id}&summary_case=${action.data.summary_case}&start_date=${action.data.start_date}&end_date=${action.data.end_date}&customer_name=${action.data.customer_name}&reporter_name=${action.data.reporter_name}&caller_number=${action.data.caller_number}&status=${action.data.status}&category=${action.data.category}&page=${action.data.page}`,
+        `ticket/list/get?ticket_number=${action.data.ticket_id}&summary_case=${action.data.summary_case}&start_date=${action.data.start_date}&end_date=${action.data.end_date}&customer_name=${action.data.customer_name}&reporter_name=${action.data.reporter_name}&caller_number=${action.data.caller_number}&status=${action.data.status}&category=${action.data.category}&page=${action.data.page}`,
       {
         method: "GET",
         headers: {

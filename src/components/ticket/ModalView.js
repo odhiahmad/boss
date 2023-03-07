@@ -96,37 +96,15 @@ export default function ModalForm({
       okButtonProps={okButtonProps}
       okText="Simpan"
       maskClosable={false}
+      afterClose={() => {
+        form.resetFields();
+      }}
     >
       <Spin spinning={loading}>
         <Space direction="vertical" size="middle" style={{ display: "flex" }}>
           <Form form={form} layout="vertical" onFinish={onFinish} id="formEdit">
             <Form.Item label="Status :" name="status">
-              <Select
-                showSearch
-                placeholder="Pilih Status"
-                optionFilterProp="children"
-                filterOption={(input, option) =>
-                  (option?.label ?? "").includes(input)
-                }
-                options={[
-                  {
-                    value: "NEW",
-                    label: "NEW",
-                  },
-                  {
-                    value: "FOLLOWUP",
-                    label: "FOLLOWUP",
-                  },
-                  {
-                    value: "PROGRESS",
-                    label: "PROGRESS",
-                  },
-                  {
-                    value: "CLOSED",
-                    label: "CLOSED",
-                  },
-                ]}
-              />
+              <Input style={{ width: "100%" }} readOnly />
             </Form.Item>
             <Form.Item hidden={true} name="id">
               <Input />

@@ -12,7 +12,19 @@ export async function filterFetch(url, options) {
       throw new Error(`Error Internal Server ${err}`); //kalo balikannya dari backend HTML
     })
     .then((json) => {
-      if (json.status === false) {
+      if (json.status === 401) {
+        Swal.fire({
+          text: json.message,
+          icon: "warning",
+          showCancelButton: false,
+          showConfirmButton: true,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.sessionStorage.clear();
+            location.reload();
+          }
+        });
+      } else if (json.status === false) {
         throw new Error(json.message);
       } else if (json.status === "Bad Request") {
         Swal.fire({

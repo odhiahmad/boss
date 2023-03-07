@@ -6,8 +6,8 @@ moment.locale("id");
 export const columnTable = (openModalView) => [
   {
     title: "Ticket Number",
-    dataIndex: "id",
-    key: "id",
+    dataIndex: "ticket_number",
+    key: "ticket_number",
     width: 160,
   },
   {
