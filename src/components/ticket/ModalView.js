@@ -43,7 +43,6 @@ export default function ModalForm({
   useEffect(() => {
     if (data) {
       const created_date_temp = moment(data.created_at).format("YYYY-MM-DD");
-      console.log(created_date_temp);
       const dataItems = [];
       const dataAssignTemp = data.assign_to;
       const keysAssign = Object.keys(dataAssignTemp);
@@ -52,7 +51,6 @@ export default function ModalForm({
         dataItems.push({ escalation_to: key, assign_to: [] });
         let keysAssignChild = Object.keys(dataAssignTemp[key]);
         keysAssignChild.forEach((keyChild, indexChild) => {
-          console.log(dataAssignTemp[key]);
           dataItems[index].assign_to.push(dataAssignTemp[key][indexChild]);
         });
       });

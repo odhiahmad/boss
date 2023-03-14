@@ -284,7 +284,6 @@ export default function ModalForm({
             <>
               <Form.List name="items">
                 {(fields, { add, remove }) => {
-                  console.log(fields);
                   return (
                     <>
                       {fields.map((field) => (
