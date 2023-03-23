@@ -12,7 +12,7 @@ export async function filterFetch(url, options) {
       throw new Error(`Error Internal Server ${err}`); //kalo balikannya dari backend HTML
     })
     .then((json) => {
-      if (json.status === 401) {
+      if (json.code === 401) {
         Swal.fire({
           text: json.message,
           icon: "warning",

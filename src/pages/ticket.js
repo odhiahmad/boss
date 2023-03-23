@@ -40,7 +40,7 @@ import { useRouter } from "next/router";
 const { Content } = Layout;
 export default function Ticket() {
   const router = useRouter();
-  const { appid, id } = router.query;
+  const { appid, groupid, id } = router.query;
 
   const dispatch = useDispatch();
   const [modalForm, setModalForm] = useState(false);
@@ -119,6 +119,8 @@ export default function Ticket() {
       dispatch(getDepartment());
       dispatch(getPriority());
       dispatch(getSummaryCase());
+    } else {
+      router.push("http://172.16.1.187/baflite/");
     }
   }, [
     router,
