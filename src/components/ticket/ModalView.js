@@ -5,7 +5,6 @@ import {
   Input,
   Row,
   Col,
-  Button,
   Space,
   List,
   Checkbox,
@@ -15,7 +14,7 @@ import {
   Spin,
 } from "antd";
 import moment from "moment";
-import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
+import { MinusCircleOutlined } from "@ant-design/icons";
 moment.locale("id");
 const dayjs = require("dayjs");
 
@@ -181,19 +180,6 @@ export default function ModalForm({
                 Document Needed
               </Checkbox>
             </Form.Item>
-
-            {/* <Row justify="space-between" align="bottom">
-                  <Col>
-                    <Form.Item label="Reporting SLA :" name="reporting_sla">
-                      <Input style={{ width: "100%" }} />
-                    </Form.Item>
-                  </Col>
-                  <Col>
-                    <Form.Item label="Resolution SLA :" name="resolution_sla">
-                      <Input style={{ width: "100%" }} />
-                    </Form.Item>
-                  </Col>
-                </Row> */}
             <Form.Item
               label="Case / Ticket Detail :"
               name="case_ticket_detail"
@@ -286,7 +272,7 @@ export default function ModalForm({
               data.escalation === 902 ? (
                 <>
                   <Form.List name="items">
-                    {(fields, { add, remove }) => {
+                    {(fields, { remove }) => {
                       return (
                         <>
                           {fields.map((field) => (
