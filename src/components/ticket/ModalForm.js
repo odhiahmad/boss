@@ -122,22 +122,10 @@ export default function ModalForm({
               </Col>
             </Row>
           </Form.Item>
-          <Form.Item
-            label="Customer Name"
-            name="customer_name"
-            rules={[
-              { required: true, message: "Tolong inputkan Customer Name!" },
-            ]}
-          >
+          <Form.Item label="Customer Name" name="customer_name">
             <Input readOnly />
           </Form.Item>
-          <Form.Item
-            label="Legal Phone"
-            name="legal_phone"
-            rules={[
-              { required: true, message: "Tolong inputkan Legal Phone!" },
-            ]}
-          >
+          <Form.Item label="Legal Phone" name="legal_phone">
             <Input readOnly />
           </Form.Item>
           <Form.Item
@@ -190,13 +178,7 @@ export default function ModalForm({
               options={dataSummaryCase ? dataSummaryCase : null}
             />
           </Form.Item>
-          <Form.Item
-            label="Document Link"
-            name="link_attachment"
-            rules={[
-              { required: true, message: "Tolong inputkan Document Link!" },
-            ]}
-          >
+          <Form.Item label="Document Link" name="link_attachment">
             <Input />
           </Form.Item>
           <Form.Item

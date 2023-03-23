@@ -115,7 +115,7 @@ export default function ModalForm({
               </Col>
               <Col>
                 <Form.Item label="Created Date :" name="created_date">
-                  <DatePicker style={{ width: "100%" }} readOnly />
+                  <DatePicker style={{ width: "100%" }} disabled />
                 </Form.Item>
               </Col>
             </Row>
@@ -159,7 +159,7 @@ export default function ModalForm({
                       (option?.label ?? "").includes(input)
                     }
                     options={dataPriority ? dataPriority : null}
-                    readOnly
+                    disabled
                   />
                 </Form.Item>
               </Col>
@@ -219,6 +219,7 @@ export default function ModalForm({
                       (option?.label ?? "").includes(input)
                     }
                     options={dataCategory ? dataCategory : null}
+                    disabled
                   />
                 </Form.Item>
               </Col>
@@ -233,6 +234,7 @@ export default function ModalForm({
                       (option?.label ?? "").includes(input)
                     }
                     options={dataSubCategory ? dataSubCategory : null}
+                    disabled
                   />
                 </Form.Item>
               </Col>
@@ -249,6 +251,7 @@ export default function ModalForm({
                       (option?.label ?? "").includes(input)
                     }
                     options={dataSummaryCase ? dataSummaryCase : null}
+                    disabled
                   />
                 </Form.Item>
               </Col>
@@ -274,6 +277,7 @@ export default function ModalForm({
                         label: "No Escalation",
                       },
                     ]}
+                    disabled
                   />
                 </Form.Item>
               </Col>
@@ -311,6 +315,7 @@ export default function ModalForm({
                                     dataDepartment ? dataDepartment : null
                                   }
                                   onChange={getDepartmentEmailData}
+                                  disabled
                                 />
                               </Form.Item>
                               <Form.Item
@@ -336,20 +341,11 @@ export default function ModalForm({
                                       ? dataDepartmentEmail
                                       : null
                                   }
+                                  disabled
                                 />
                               </Form.Item>
                             </>
                           ))}
-                          <Form.Item label="Tambah Escalation">
-                            <Button
-                              type="dashed"
-                              onClick={add}
-                              block
-                              icon={<PlusOutlined />}
-                            >
-                              Add Escalation
-                            </Button>
-                          </Form.Item>
                         </>
                       );
                     }}
@@ -368,7 +364,7 @@ export default function ModalForm({
               label="Solution"
               name="solution"
             >
-              <TextArea style={{ width: "100%" }} />
+              <TextArea style={{ width: "100%" }} readOnly />
             </Form.Item>
             <Form.Item
               l
@@ -381,7 +377,7 @@ export default function ModalForm({
               abel="Customer Response"
               name="customer_response"
             >
-              <TextArea style={{ width: "100%" }} />
+              <TextArea style={{ width: "100%" }} readOnly />
             </Form.Item>
 
             <Divider />

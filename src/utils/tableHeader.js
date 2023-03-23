@@ -26,12 +26,18 @@ export const columnTable = (openModalView) => [
     title: "Customer Name",
     dataIndex: "name",
     key: "name",
+    sorter: {
+      compare: (a, b) => a.name.length - b.name.length,
+    },
     width: 160,
   },
   {
     title: "Reporter",
     dataIndex: "reporter_name",
     key: "reporter_name",
+    sorter: {
+      compare: (a, b) => a.reporter_name.length - b.reporter_name.length,
+    },
     width: 160,
   },
   {
@@ -46,6 +52,9 @@ export const columnTable = (openModalView) => [
     key: "created_at",
     width: 200,
     render: (text, record) => <p>{moment(record.created_at).format("lll")}</p>,
+    sorter: {
+      compare: (a, b) => a.created_at.length - b.created_at.length,
+    },
   },
   {
     title: "Close Ticket Date",
@@ -83,6 +92,9 @@ export const columnTable = (openModalView) => [
         .format("lll");
 
       return <p>{created_date_temp}</p>;
+    },
+    sorter: {
+      compare: (a, b) => a.created_at.length - b.created_at.length,
     },
   },
   {

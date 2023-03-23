@@ -451,7 +451,7 @@ export default function Ticket() {
         pagination={false}
         scroll={{
           x: 1000,
-          y: 300,
+          y: 600,
         }}
       />
       <Divider />
